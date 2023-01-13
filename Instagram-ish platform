@@ -1,0 +1,72 @@
+CREATE TABLE app_user(
+  ID INT PRIMARY KEY,
+  first_name VARCHAR(20),
+  last_name VARCHAR(20),
+  profile_name VARCHAR (15),
+  signup_date DATE
+  );
+CREATE TABLE follower(
+  following_user_id INT,
+  followed_user_id INT,
+  FOREIGN KEY(following_user_id) REFERENCES app_user(ID) ON DELETE SET NULL,
+  FOREIGN KEY(followed_user_id) REFERENCES app_user(ID) ON DELETE SET NULL
+  );
+  CREATE TABLE reaction(
+  user_id INT,
+  post_id INT,
+  FOREIGN KEY(user_id) REFERENCES app_user(ID) ON DELETE SET NULL,
+  FOREIGN KEY(post_id) REFERENCES app_user(ID) ON DELETE SET NULL
+  );
+  CREATE TABLE comment(
+  ID INT PRIMARY KEY,
+  created_by_userid INT,
+  post_id INT,
+  created_datetime DATE,
+  comment VARCHAR(25),
+  comment_replied_to_id INT,
+  FOREIGN KEY(created_by_userid) REFERENCES app_user(ID) ON DELETE SET NULL,
+  FOREIGN KEY(comment_replied_to_id) REFERENCES comment(ID) ON DELETE SET NULL
+  );
+  CREATE TABLE post(
+  ID INT PRIMARY KEY,
+  created_by_user_id INT,
+  created_datetime DATE,
+  caption VARCHAR (15),
+  post_type VARCHAR (10),
+  FOREIGN KEY(created_by_user_id) REFERENCES app_user(ID) ON DELETE SET NULL
+  );
+
+  CREATE TABLE post_type(
+  ID INT PRIMARY KEY,
+  post_type_name VARCHAR(15),
+  FOREIGN KEY(ID) REFERENCES post(post_type) ON DELETE SET NULL
+  );
+
+  CREATE TABLE post_media(
+  ID INT PRIMARY KEY,
+  post_id INT,
+  filter_id INT,
+  media_file VARCHAR(10),
+  position INT,
+  longtitude INT,
+  latitude INT,
+  FOREIGN KEY(post_id) REFERENCES post(ID) ON DELETE SET NULL
+ );
+  CREATE TABLE filter(
+  ID INT PRIMARY KEY,
+  filter_name VARCHAR (20),
+  filter_details VARCHAR(15),
+  FOREIGN KEY(ID) REFERENCES post_media(filter_id) ON DELETE SET NULL
+  );
+
+CREATE TABLE post_effect(
+  post_media_id INT,
+  effect_id INT,
+  scale INT,
+  FOREIGN KEY(post_media_id) REFERENCES post_media(ID) ON DELETE SET NULL
+  );
+CREATE TABLE effect(
+  ID INT PRIMARY KEY,
+  effect_name VARCHAR (10),
+  FOREIGN KEY(ID) REFERENCES post_effect(effect_id) ON DELETE SET NULL
+  );
