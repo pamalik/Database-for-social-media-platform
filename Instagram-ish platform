@@ -70,3 +70,6 @@ CREATE TABLE effect(
   effect_name VARCHAR (10),
   FOREIGN KEY(ID) REFERENCES post_effect(effect_id) ON DELETE SET NULL
   );
+SELECT*
+FROM app_user
+;
